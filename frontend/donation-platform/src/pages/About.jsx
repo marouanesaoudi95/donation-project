@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { FadeContent, ScrollReveal, GlowCard, BlurText, CountUp } from '../components/animations'
 
 /* ── Reusable section wrapper ─────────────────────────────── */
 const Section = ({ id, children, bg = 'white', style = {} }) => (
@@ -37,9 +39,10 @@ const WhoWeAre = () => (
           <span style={{display:'inline-block',fontSize:'0.8rem',fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',color:'#f97316',marginBottom:'0.75rem'}}>
             Who We Are
           </span>
-          <h2 style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.75rem,4vw,2.5rem)',fontWeight:700,color:'#1c1917',marginBottom:'1.25rem',lineHeight:1.25}}>
+          <motion.h2 initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{duration:0.5}}
+            style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.75rem,4vw,2.5rem)',fontWeight:700,color:'#1c1917',marginBottom:'1.25rem',lineHeight:1.25}}>
             A Community Built on<br />Generosity & Trust
-          </h2>
+          </motion.h2>
           <p style={{color:'#78716c',lineHeight:1.8,marginBottom:'1rem',fontSize:'1rem'}}>
             HopeLink is a non-profit digital platform founded in 2023 by a group of social entrepreneurs who witnessed firsthand the disconnect between willing donors and underfunded charities.
           </p>
@@ -96,14 +99,12 @@ const OurMission = () => (
           { icon:'📊', title:'Data-Driven',    desc:'We use real-time data to connect the right donations with the communities that need them most.' },
           { icon:'💚', title:'Zero Cost',      desc:'HopeLink is 100% free for donors and charities. We believe barriers to giving should not exist.' },
         ].map(card => (
-          <div key={card.title} style={{background:'white',borderRadius:'1rem',padding:'1.75rem',boxShadow:'0 4px 20px rgba(0,0,0,0.06)',transition:'transform 0.2s,box-shadow 0.2s'}}
-            onMouseOver={e => { e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 12px 40px rgba(0,0,0,0.12)' }}
-            onMouseOut={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.06)' }}
-          >
+          <motion.div key={card.title} whileHover={{y:-6,boxShadow:'0 16px 40px rgba(0,0,0,0.12)'}} transition={{type:'spring',stiffness:300,damping:22}}
+            style={{background:'white',borderRadius:'1rem',padding:'1.75rem',boxShadow:'0 4px 20px rgba(0,0,0,0.06)'}}>
             <div style={{fontSize:'2rem',marginBottom:'0.875rem'}}>{card.icon}</div>
             <h3 style={{fontFamily:'Playfair Display,serif',fontSize:'1.1rem',fontWeight:700,color:'#1c1917',marginBottom:'0.5rem'}}>{card.title}</h3>
             <p style={{color:'#78716c',fontSize:'0.9rem',lineHeight:1.7}}>{card.desc}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
@@ -119,7 +120,7 @@ const OurStory = () => (
         {/* Vertical line */}
         <div style={{position:'absolute',left:'0.625rem',top:0,bottom:0,width:'2px',background:'linear-gradient(to bottom,#f97316,#fbbf24,#4ade80)'}} />
         {[
-          { year:'2022', title:'The Problem We Saw',     color:'#f97316', desc:'Co-founders MAROUANE and LILIA noticed boxes of perfectly good goods being thrown away while local shelters struggled. They knew there had to be a better way.' },
+          { year:'2022', title:'The Problem We Saw',     color:'#f97316', desc:'Co-founders Marouane and Lilia noticed boxes of perfectly good goods being thrown away while local shelters struggled. They knew there had to be a better way.' },
           { year:'2023', title:'HopeLink is Born',       color:'#fb923c', desc:'Working out of a small apartment, they built the first version of HopeLink in three months. On launch day, 12 charities and 40 donors signed up within 24 hours.' },
           { year:'2024', title:'Growing the Movement',   color:'#fbbf24', desc:'Word spread fast. By mid-2024 HopeLink had reached 50 cities and facilitated over 1,000 donations. We onboarded our first full-time team of 8.' },
           { year:'2025', title:'National Recognition',   color:'#4ade80', desc:'HopeLink was recognized by the National Philanthropy Foundation as one of the top 10 most impactful civic tech platforms. 12,000+ lives impacted.' },
@@ -189,8 +190,8 @@ const WhatWeDo = () => (
 const TEAM = [
   { name:'MAROUANE SAOUDI',    role:'Co-Founder & CEO',        emoji:'👨‍💻', bio:'Former NGO director with 10 years in humanitarian aid. Marouane drives our mission and strategy.',        color:'#fff7ed' },
   { name:'LILIA HARACHE',  role:'Co-Founder & CTO',        emoji:'👩‍💼', bio:'Full-stack engineer and open-source contributor. Built the entire HopeLink platform from the ground up.',color:'#eff6ff' },
-  { name:'MEHDI DENBRI',    role:'Community Manager',        emoji:'👨‍💻', bio:'Connects donors and charities daily. Nadia is the heart of the HopeLink community.',                   color:'#fff7ed' },
-  { name:'YACINE DJOUAHER',     role:'Data & Analytics',        emoji:'👨‍💻', bio:'Uses data science to match donations with the highest-impact charities in real time.',                  color:'#f0f9ff' },
+  { name:'MEHDI DENBRI',    role:'Community Manager',        emoji:'🌟', bio:'Connects donors and charities daily. Mehdi is the heart of the HopeLink community.',                   color:'#fff7ed' },
+  { name:'YACINE DJOUAHER',     role:'Data & Analytics',        emoji:'📊', bio:'Uses data science to match donations with the highest-impact charities in real time.',                  color:'#f0f9ff' },
 ]
 
 const MeetTheTeam = () => (
@@ -199,17 +200,15 @@ const MeetTheTeam = () => (
       <SectionHeader eyebrow="Meet the Team" title="The People Behind HopeLink" subtitle="A small, passionate team united by one belief: that technology can make generosity more powerful." />
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:'1.25rem'}}>
         {TEAM.map(member => (
-          <div key={member.name} style={{background:'white',borderRadius:'1.25rem',padding:'1.75rem',boxShadow:'0 4px 20px rgba(0,0,0,0.06)',transition:'transform 0.2s,box-shadow 0.2s'}}
-            onMouseOver={e => { e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 12px 40px rgba(0,0,0,0.12)' }}
-            onMouseOut={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 20px rgba(0,0,0,0.06)' }}
-          >
+          <motion.div key={member.name} whileHover={{y:-6,boxShadow:'0 16px 40px rgba(0,0,0,0.12)'}} transition={{type:'spring',stiffness:300,damping:22}}
+            style={{background:'white',borderRadius:'1.25rem',padding:'1.75rem',boxShadow:'0 4px 20px rgba(0,0,0,0.06)'}}>
             <div style={{width:'4.5rem',height:'4.5rem',borderRadius:'1.25rem',background:member.color,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'2rem',marginBottom:'1rem'}}>
               {member.emoji}
             </div>
             <h3 style={{fontFamily:'Playfair Display,serif',fontSize:'1.1rem',fontWeight:700,color:'#1c1917',marginBottom:'0.25rem'}}>{member.name}</h3>
             <p style={{fontSize:'0.8rem',fontWeight:600,color:'#f97316',marginBottom:'0.75rem'}}>{member.role}</p>
             <p style={{fontSize:'0.875rem',color:'#78716c',lineHeight:1.6}}>{member.bio}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
       <div style={{textAlign:'center',marginTop:'3rem'}}>
@@ -245,8 +244,9 @@ const ContactUs = () => {
             <div style={{display:'flex',flexDirection:'column',gap:'1.25rem',marginBottom:'2.5rem'}}>
               {[
                 { icon:'📧', label:'Email Us',    value:'hello@hopelink.org',    href:'mailto:hello@hopelink.org' },
-                { icon:'📍', label:'Visit Us',    value:'Boumerdes , ALGERIA', href:'#' },
-                { icon:'⏰', label:'Office Hours', value:'SUN – THU , 8am – 5pm', href:null },
+                { icon:'📞', label:'Call Us',     value:'+1 (555) 000-1234',     href:'tel:+15550001234' },
+                { icon:'📍', label:'Visit Us',    value:'123 Giving Street, New York, NY 10001', href:'#' },
+                { icon:'⏰', label:'Office Hours', value:'Mon – Fri, 9am – 6pm EST', href:null },
               ].map(item => (
                 <div key={item.label} style={{display:'flex',alignItems:'flex-start',gap:'1rem',padding:'1.25rem',background:'#fafaf9',borderRadius:'0.875rem'}}>
                   <div style={{width:'2.75rem',height:'2.75rem',borderRadius:'0.625rem',background:'#fff7ed',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.25rem',flexShrink:0}}>{item.icon}</div>
@@ -293,12 +293,12 @@ const ContactUs = () => {
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
                   <div>
                     <label style={{display:'block',fontSize:'0.8rem',fontWeight:600,color:'#1c1917',marginBottom:'0.375rem'}}>Name *</label>
-                    <input required value={form.name} onChange={set('name')} placeholder="Full Name"
+                    <input required value={form.name} onChange={set('name')} placeholder="Jane Doe"
                       className="input-field" style={{width:'100%'}} />
                   </div>
                   <div>
                     <label style={{display:'block',fontSize:'0.8rem',fontWeight:600,color:'#1c1917',marginBottom:'0.375rem'}}>Email *</label>
-                    <input required type="email" value={form.email} onChange={set('email')} placeholder="Youremail@gmail.com"
+                    <input required type="email" value={form.email} onChange={set('email')} placeholder="jane@email.com"
                       className="input-field" style={{width:'100%'}} />
                   </div>
                 </div>
@@ -379,9 +379,10 @@ const About = () => {
           <h1 style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(2.5rem,6vw,4rem)',fontWeight:700,color:'white',lineHeight:1.15,marginBottom:'1.5rem'}}>
             We Connect Hearts,<br /><span style={{color:'#f97316'}}>One Donation at a Time</span>
           </h1>
-          <p style={{color:'rgba(255,255,255,0.7)',fontSize:'1.2rem',lineHeight:1.7,marginBottom:'2.5rem'}}>
+          <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.6,delay:0.35}}
+            style={{color:'rgba(255,255,255,0.7)',fontSize:'1.2rem',lineHeight:1.7,marginBottom:'2.5rem'}}>
             HopeLink is a non-profit platform that makes donating simple, transparent, and impactful — turning everyday generosity into life-changing support.
-          </p>
+          </motion.p>
           <div style={{display:'flex',gap:'1rem',justifyContent:'center',flexWrap:'wrap'}}>
             <button onClick={() => scrollTo('our-mission')} className="btn-primary">Discover Our Mission</button>
             <button onClick={() => scrollTo('contact-us')} className="btn-outline" style={{borderColor:'rgba(255,255,255,0.3)',color:'white'}}>Contact Us</button>

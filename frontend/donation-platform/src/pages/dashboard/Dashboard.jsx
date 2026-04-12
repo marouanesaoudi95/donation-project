@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { usePosts } from '../../hooks/usePosts'
@@ -6,10 +7,12 @@ import { useClaims } from '../../hooks/useClaims'
 import PostCard from '../../components/posts/PostCard'
 import { formatDate, getDonationTypeInfo, getProgressPercent } from '../../utils/formatters'
 import { DONATION_TYPES } from '../../utils/constants'
+import { FadeContent, ScrollReveal, GlowCard, BlurText } from '../../components/animations'
 
 /* ── tiny helpers ─────────────────────────────────────────── */
 const StatCard = ({ icon, label, value, bg, sub }) => (
-  <div style={{background:'white',borderRadius:'1rem',boxShadow:'0 4px 20px rgba(0,0,0,0.07)',padding:'1.5rem',display:'flex',alignItems:'center',gap:'1rem'}}>
+  <motion.div whileHover={{y:-3,boxShadow:'0 12px 35px rgba(0,0,0,0.12)'}} transition={{type:'spring',stiffness:300,damping:20}}
+    style={{background:'white',borderRadius:'1rem',boxShadow:'0 4px 20px rgba(0,0,0,0.07)',padding:'1.5rem',display:'flex',alignItems:'center',gap:'1rem'}}>
     <div style={{width:'3.5rem',height:'3.5rem',borderRadius:'1rem',background:bg,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.5rem',flexShrink:0}}>
       {icon}
     </div>
@@ -18,7 +21,7 @@ const StatCard = ({ icon, label, value, bg, sub }) => (
       <p style={{fontSize:'0.8rem',color:'#78716c',marginTop:'0.2rem'}}>{label}</p>
       {sub && <p style={{fontSize:'0.75rem',color:'#a8a29e',marginTop:'0.1rem'}}>{sub}</p>}
     </div>
-  </div>
+  </motion.div>
 )
 
 const SectionTitle = ({ children, action }) => (

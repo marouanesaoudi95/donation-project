@@ -6,7 +6,7 @@ const Input = React.forwardRef(({
   type = 'text', as = 'input', options = [],
   ...rest
 }, ref) => {
-  const Tag = as === 'select' ? 'select' : as === 'textarea' ? 'textarea' : 'input'
+  const commonClasses = `input-field ${icon ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? 'border-red-400 ring-1 ring-red-400' : ''} ${className}`
 
   return (
     <div className={`w-full ${wrapperClass}`}>
@@ -21,23 +21,19 @@ const Input = React.forwardRef(({
             {icon}
           </div>
         )}
+        
         {as === 'select' ? (
-          <select
-            ref={ref}
-            className={`input-field ${icon ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? 'border-red-400 ring-1 ring-red-400' : ''} ${className}`}
-            {...rest}
-          >
+          <select ref={ref} className={commonClasses} {...rest}>
             {options.map(opt => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
             ))}
           </select>
+        ) : as === 'textarea' ? (
+          <textarea ref={ref} className={`${commonClasses} resize-none`} {...rest} />
         ) : (
-          <Tag
-            ref={ref} type={type}
-            className={`input-field ${icon ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? 'border-red-400 ring-1 ring-red-400' : ''} ${Tag === 'textarea' ? 'resize-none' : ''} ${className}`}
-            {...rest}
-          />
+          <input ref={ref} type={type} className={commonClasses} {...rest} />
         )}
+
         {iconRight && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2" style={{color:'#78716c'}}>{iconRight}</div>
         )}

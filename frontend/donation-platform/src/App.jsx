@@ -1,10 +1,13 @@
 import React, { Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import ProtectedRoute from './routes/ProtectedRoute'
 import { PageSpinner } from './components/common/Spinner'
+import PageTransition from './components/animations/PageTransition'
+import ScrollToTop from './components/animations/ScrollToTop'
 
 import HomePage      from './pages/HomePage'
 import About         from './pages/About'
@@ -30,7 +33,7 @@ const Layout = ({ children, noFooter = false }) => (
 const NotFound = () => (
   <Layout>
     <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',background:'#fef9f0'}}>
-      <div style={{textAlign:'center',animation:'slideUp 0.4s ease-out both'}}>
+      <div style={{textAlign:'center'}}>
         <p style={{fontSize:'5rem',marginBottom:'1.5rem'}}>🔍</p>
         <h1 style={{fontFamily:'Playfair Display,serif',fontSize:'3rem',fontWeight:700,color:'#1c1917',marginBottom:'0.75rem'}}>404</h1>
         <p style={{color:'#78716c',fontSize:'1.25rem',marginBottom:'2rem'}}>This page doesn't exist.</p>
@@ -40,56 +43,78 @@ const NotFound = () => (
   </Layout>
 )
 
+/* AnimatePresence needs the location key — must be inside Router */
+const AnimatedRoutes = () => {
+  const location = useLocation()
+
+  return (
+    <>
+    <ScrollToTop />
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Public */}
+        <Route path="/" element={
+          <Layout><PageTransition><HomePage /></PageTransition></Layout>
+        } />
+        <Route path="/about" element={
+          <Layout><PageTransition><About /></PageTransition></Layout>
+        } />
+        <Route path="/login"    element={<PageTransition><Login /></PageTransition>} />
+        <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
+        <Route path="/posts" element={
+          <Layout><PageTransition><PostsList /></PageTransition></Layout>
+        } />
+
+        {/* /posts/create MUST be before /posts/:id */}
+        <Route path="/posts/create" element={
+          <ProtectedRoute roles={['donor','admin']}>
+            <Layout><PageTransition><CreatePost /></PageTransition></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/posts/:id/edit" element={
+          <ProtectedRoute roles={['donor','admin']}>
+            <Layout><PageTransition><EditPost /></PageTransition></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/posts/:id" element={
+          <Layout><PageTransition><PostDetail /></PageTransition></Layout>
+        } />
+
+        {/* Protected */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Layout><PageTransition><Dashboard /></PageTransition></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Layout><PageTransition><Profile /></PageTransition></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/claims" element={
+          <ProtectedRoute roles={['charity','admin']}>
+            <Layout><PageTransition><ClaimsHistory /></PageTransition></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/admin" element={
+          <ProtectedRoute roles={['admin']}>
+            <Layout><PageTransition><AdminPanel /></PageTransition></Layout>
+          </ProtectedRoute>
+        } />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AnimatePresence>
+    </>
+  )
+}
+
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Suspense fallback={<PageSpinner />}>
-          <Routes>
-            {/* Public */}
-            <Route path="/"        element={<Layout><HomePage /></Layout>} />
-            <Route path="/about"   element={<Layout><About /></Layout>} />
-            <Route path="/login"   element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/posts"   element={<Layout><PostsList /></Layout>} />
-
-            {/* /posts/create MUST come before /posts/:id */}
-            <Route path="/posts/create" element={
-              <ProtectedRoute roles={['donor','admin']}>
-                <Layout><CreatePost /></Layout>
-              </ProtectedRoute>
-            } />
-            <Route path="/posts/:id/edit" element={
-              <ProtectedRoute roles={['donor','admin']}>
-                <Layout><EditPost /></Layout>
-              </ProtectedRoute>
-            } />
-            <Route path="/posts/:id" element={<Layout><PostDetail /></Layout>} />
-
-            {/* Protected */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Layout><Dashboard /></Layout>
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <Layout><Profile /></Layout>
-              </ProtectedRoute>
-            } />
-            <Route path="/claims" element={
-              <ProtectedRoute roles={['charity','admin']}>
-                <Layout><ClaimsHistory /></Layout>
-              </ProtectedRoute>
-            } />
-            <Route path="/admin" element={
-              <ProtectedRoute roles={['admin']}>
-                <Layout><AdminPanel /></Layout>
-              </ProtectedRoute>
-            } />
-
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AnimatedRoutes />
         </Suspense>
       </AuthProvider>
     </BrowserRouter>
