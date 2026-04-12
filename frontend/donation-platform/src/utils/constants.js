@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:5000/api/v1'
+export const API_BASE_URL = '/api/v1'
 
 export const DONATION_TYPES = [
   { value: 'food',        label: 'Food & Groceries',  icon: '🍎', color: 'badge bg-green-100 text-green-700' },

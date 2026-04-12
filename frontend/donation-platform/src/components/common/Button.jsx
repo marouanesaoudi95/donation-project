@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import React from 'react'
 import Spinner from './Spinner'
 
@@ -18,7 +19,9 @@ const Button = ({
   const disabledCls = (disabled || loading) ? 'opacity-60 cursor-not-allowed' : ''
 
   return (
-    <button
+    <motion.button
+      whileHover={disabled||loading?{}:{scale:1.03}}
+      whileTap={disabled||loading?{}:{scale:0.97}}
       type={type} onClick={onClick} disabled={disabled || loading}
       className={`${base} ${disabledCls} ${className}`}
       {...rest}
@@ -26,7 +29,7 @@ const Button = ({
       {loading ? <Spinner size="sm" color="current" /> : icon}
       {children}
       {!loading && iconRight}
-    </button>
+    </motion.button>
   )
 }
 

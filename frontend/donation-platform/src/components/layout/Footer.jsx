@@ -44,8 +44,7 @@ const Footer = () => (
           <h4 className="font-bold text-white mb-4" style={{fontFamily:'Playfair Display,serif'}}>Contact</h4>
           <ul className="space-y-2.5 text-sm" style={{color:'#a8a29e'}}>
             <li>📧 hello@hopelink.org</li>
-
-            <li>📍 Boumerdes , ALGERIA </li>
+            <li>📍 Algiers, ALGERIA</li>
           </ul>
         </div>
       </div>

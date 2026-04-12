@@ -1,195 +1,254 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useAuth } from '../hooks/useAuth'
 import { usePosts } from '../hooks/usePosts'
 import PostCard from '../components/posts/PostCard'
 import { DONATION_TYPES, STATS } from '../utils/constants'
+import { FadeContent, ScrollReveal, BlurText, CountUp, GlowCard, TextShimmer } from '../components/animations'
 
 const CAUSE_IMAGES = {
-  food: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&q=80',
-  clothes: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
-  toys: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80',
-  books: 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&q=80',
-  electronics: 'https://images.unsplash.com/photo-1593344484962-796055d4a3a4?w=400&q=80',
-  other: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&q=80',
+  food:'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&q=80',
+  clothes:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+  toys:'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80',
+  books:'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&q=80',
+  electronics:'https://images.unsplash.com/photo-1593344484962-796055d4a3a4?w=400&q=80',
+  other:'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&q=80',
 }
+
+const STAT_NUMS = [2400, 340, 12000, 98]
+const STAT_SUFFIX = ['+', '+', '+', '%']
 
 const HomePage = () => {
   const { isAuthenticated, isDonor } = useAuth()
   const { posts, fetchPosts, loading } = usePosts()
-
-  useEffect(() => { fetchPosts({ status: 'available', limit: 6 }) }, [])
+  useEffect(() => { fetchPosts({ status:'available', limit:6 }) }, [])
 
   return (
-    <div className="min-h-screen">
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400">
-        <div className="absolute inset-0 [background-image:none] opacity-20" />
-        {/* Floating blobs */}
-        <div className="absolute top-20 right-10 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse-soft" />
-        <div className="absolute bottom-10 left-10 w-48 h-48 bg-orange-300/20 rounded-full blur-2xl animate-pulse-soft" style={{animationDelay:'1s'}} />
+    <div style={{minHeight:'100vh'}}>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-16 items-center">
-          <div className="text-white animate-slide-up">
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm  font-medium mb-6">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              340+ charities connected across the country
-            </div>
-            <h1 className="font-serif text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Give Hope,<br />
-              <span className="text-orange-200">Change Lives</span>
+      {/* ── HERO ── */}
+      <section style={{
+        position:'relative', minHeight:'100vh', display:'flex', alignItems:'center',
+        overflow:'hidden', background:'linear-gradient(135deg,#f97316 0%,#ea6c10 55%,#c2570c 100%)'
+      }}>
+        {/* Animated bg blobs */}
+        <motion.div animate={{ scale:[1,1.15,1], opacity:[0.5,0.8,0.5] }}
+          transition={{ duration:7, repeat:Infinity, ease:'easeInOut' }}
+          style={{position:'absolute',top:'10%',right:'5%',width:'28rem',height:'28rem',borderRadius:'50%',background:'rgba(255,255,255,0.07)',filter:'blur(40px)'}}
+        />
+        <motion.div animate={{ scale:[1.1,1,1.1], opacity:[0.4,0.7,0.4] }}
+          transition={{ duration:9, repeat:Infinity, ease:'easeInOut', delay:1 }}
+          style={{position:'absolute',bottom:'5%',left:'5%',width:'20rem',height:'20rem',borderRadius:'50%',background:'rgba(251,191,36,0.12)',filter:'blur(30px)'}}
+        />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{position:'relative',zIndex:1,paddingTop:'5rem',paddingBottom:'5rem',display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:'4rem',alignItems:'center',width:'100%'}}>
+          {/* Text */}
+          <div style={{color:'white'}}>
+            <motion.div
+              initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
+              transition={{ duration:0.5 }}
+              style={{display:'inline-flex',alignItems:'center',gap:'0.5rem',background:'rgba(255,255,255,0.2)',backdropFilter:'blur(8px)',padding:'0.375rem 1rem',borderRadius:'9999px',fontSize:'0.85rem',fontWeight:600,marginBottom:'1.5rem'}}
+            >
+              <motion.span animate={{ scale:[1,1.3,1] }} transition={{ duration:1.5,repeat:Infinity }}
+                style={{width:'0.5rem',height:'0.5rem',borderRadius:'50%',background:'#4ade80',display:'inline-block'}}
+              />
+              340+ charities connected
+            </motion.div>
+
+            <h1 style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(2.5rem,5vw,4rem)',fontWeight:700,lineHeight:1.15,marginBottom:'1.5rem'}}>
+              <BlurText text="Give Hope," delay={0.2} /><br />
+              <BlurText text="Change Lives" delay={0.5} style={{color:'#fde68a'}} />
             </h1>
-            <p className=" text-white/85 text-xl leading-relaxed mb-10 max-w-lg">
-              HopeLink connects generous donors with trusted charitable organizations — making giving simple, transparent, and impactful.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              {isAuthenticated ? (
-                isDonor ? (
-                  <Link to="/posts/create" className="btn-primary bg-white !text-orange-600 hover:bg-orange-50 shadow-xl">
-                    🎁 Create Donation
-                  </Link>
+
+            <FadeContent delay={0.7} direction="up">
+              <p style={{color:'rgba(255,255,255,0.85)',fontSize:'1.2rem',lineHeight:1.7,marginBottom:'2.5rem',maxWidth:'32rem'}}>
+                HopeLink connects generous donors with trusted charities — making giving simple, transparent, and impactful.
+              </p>
+              <div style={{display:'flex',flexWrap:'wrap',gap:'1rem'}}>
+                {isAuthenticated ? (
+                  isDonor ? (
+                    <motion.div whileHover={{scale:1.04}} whileTap={{scale:0.97}}>
+                      <Link to="/posts/create" className="btn-primary" style={{background:'white',color:'#ea6c10',boxShadow:'0 8px 30px rgba(0,0,0,0.2)',textDecoration:'none'}}>🎁 Create Donation</Link>
+                    </motion.div>
+                  ) : (
+                    <motion.div whileHover={{scale:1.04}} whileTap={{scale:0.97}}>
+                      <Link to="/posts" className="btn-primary" style={{background:'white',color:'#ea6c10',textDecoration:'none'}}>🔍 Browse Donations</Link>
+                    </motion.div>
+                  )
                 ) : (
-                  <Link to="/posts" className="btn-primary bg-white !text-orange-600 hover:bg-orange-50 shadow-xl">
-                    🔍 Browse Donations
-                  </Link>
-                )
-              ) : (
-                <>
-                  <Link to="/register" className="btn-primary bg-white !text-orange-600 hover:bg-orange-50 shadow-xl">
-                    Get Started Free
-                  </Link>
-                  <Link to="/posts" className="btn-outline !border-white !text-white hover:!bg-white hover:!text-orange-600">
-                    Browse Donations
-                  </Link>
-                </>
-              )}
-            </div>
+                  <>
+                    <motion.div whileHover={{scale:1.04}} whileTap={{scale:0.97}}>
+                      <Link to="/register" className="btn-primary" style={{background:'white',color:'#ea6c10',boxShadow:'0 8px 30px rgba(0,0,0,0.2)',textDecoration:'none'}}>Get Started Free</Link>
+                    </motion.div>
+                    <motion.div whileHover={{scale:1.04}} whileTap={{scale:0.97}}>
+                      <Link to="/posts" className="btn-outline" style={{borderColor:'rgba(255,255,255,0.5)',color:'white',textDecoration:'none'}}>Browse Donations</Link>
+                    </motion.div>
+                  </>
+                )}
+              </div>
+            </FadeContent>
           </div>
 
           {/* Stats grid */}
-          <div className="grid grid-cols-2 gap-4 animate-fade-in" style={{animationDelay:'0.3s'}}>
-            {STATS.map((s, i) => (
-              <div key={i} className="bg-white/15 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-colors">
-                <p className="text-3xl mb-1">{s.icon}</p>
-                <p className="font-serif text-3xl font-bold text-white">{s.value}</p>
-                <p className=" text-white/70 text-sm mt-1">{s.label}</p>
-              </div>
-            ))}
-          </div>
+          <FadeContent delay={0.4} direction="left">
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
+              {STATS.map((s, i) => (
+                <motion.div key={i}
+                  initial={{ opacity:0, scale:0.85 }}
+                  animate={{ opacity:1, scale:1 }}
+                  transition={{ delay: 0.6 + i*0.1, duration:0.4, type:'spring' }}
+                  whileHover={{ scale:1.05, background:'rgba(255,255,255,0.25)' }}
+                  style={{background:'rgba(255,255,255,0.15)',backdropFilter:'blur(8px)',borderRadius:'1.25rem',padding:'1.5rem',border:'1px solid rgba(255,255,255,0.2)',cursor:'default'}}
+                >
+                  <p style={{fontSize:'1.75rem',marginBottom:'0.25rem'}}>{s.icon}</p>
+                  <p style={{fontFamily:'Playfair Display,serif',fontSize:'2rem',fontWeight:700,color:'white'}}>
+                    <CountUp end={STAT_NUMS[i]} suffix={STAT_SUFFIX[i]} duration={2000} />
+                  </p>
+                  <p style={{color:'rgba(255,255,255,0.75)',fontSize:'0.85rem',marginTop:'0.25rem'}}>{s.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </FadeContent>
         </div>
 
-        {/* Wave */}
-        <div className="absolute bottom-0 inset-x-0">
+        {/* Wave bottom */}
+        <div style={{position:'absolute',bottom:0,left:0,right:0}}>
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#fef9f0"/>
           </svg>
         </div>
       </section>
 
-      {/* ── How it works ─────────────────────────────────────────────────── */}
-      <section className="py-20 bg-orange-50/30">
+      {/* ── HOW IT WORKS ── */}
+      <section style={{background:'#fef9f0',padding:'5rem 0'}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block text-orange-500 font-semibold  text-sm uppercase tracking-widest mb-3">Simple Process</span>
-            <h2 className="text-4xl font-bold font-serif text-stone-900 mb-3">How HopeLink Works</h2>
-            <p className="text-stone-500 text-lg leading-relaxed max-w-xl mx-auto">Three simple steps to connect donors with charities and make a lasting difference.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { step: '01', icon: '📝', title: 'Post a Donation', desc: 'Donors list available items — food, clothes, toys, and more — in minutes.' },
-              { step: '02', icon: '🔍', title: 'Charities Discover', desc: 'Registered charities browse and filter donations matching their community needs.' },
-              { step: '03', icon: '🤝', title: 'Connect & Collect', desc: 'Charities claim donations and coordinate pickup directly with donors.' },
-            ].map((step, i) => (
-              <div key={i} className="card p-8 text-center group hover:-translate-y-1 transition-transform duration-300">
-                <div className="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 group-hover:bg-orange-100 transition-colors">
-                  {step.icon}
-                </div>
-                <div className="inline-block text-xs font-bold  text-orange-400 bg-orange-50 px-3 py-1 rounded-full mb-3">{step.step}</div>
-                <h3 className="font-serif text-xl font-bold text-stone-900 mb-3">{step.title}</h3>
-                <p className=" text-stone-500 leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Cause Categories ─────────────────────────────────────────────── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <span className="inline-block text-orange-500 font-semibold  text-sm uppercase tracking-widest mb-3">What We Collect</span>
-            <h2 className="text-4xl font-bold font-serif text-stone-900 mb-3">Donation Categories</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-            {DONATION_TYPES.map(type => (
-              <Link key={type.value} to={`/posts?type=${type.value}`}
-                className="group relative rounded-2xl overflow-hidden aspect-video  hover: transition-all duration-300 hover:-translate-y-1">
-                <img src={CAUSE_IMAGES[type.value]} alt={type.label}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                  <p className="text-2xl mb-1">{type.icon}</p>
-                  <p className="font-serif font-bold text-lg leading-tight">{type.label}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Recent Donations ─────────────────────────────────────────────── */}
-      <section className="py-20 bg-orange-50/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <span className="inline-block text-orange-500 font-semibold  text-sm uppercase tracking-widest mb-3">Live Feed</span>
-              <h2 className="text-4xl font-bold font-serif text-stone-900">Recent Donations</h2>
+          <FadeContent direction="up">
+            <div style={{textAlign:'center',marginBottom:'3.5rem'}}>
+              <span style={{display:'inline-block',fontSize:'0.8rem',fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',color:'#f97316',marginBottom:'0.75rem'}}>Simple Process</span>
+              <h2 style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.75rem,4vw,2.75rem)',fontWeight:700,color:'#1c1917',marginBottom:'1rem'}}>
+                How <TextShimmer text="HopeLink" /> Works
+              </h2>
+              <p style={{color:'#78716c',fontSize:'1.05rem',lineHeight:1.7,maxWidth:'36rem',margin:'0 auto'}}>
+                Three simple steps to connect donors with charities and make a lasting difference.
+              </p>
             </div>
-            <Link to="/posts" className="btn-outline hidden sm:flex items-center gap-2">
-              View All <span>→</span>
-            </Link>
-          </div>
-          {loading ? (
-            <div className="grid md:grid-cols-3 gap-6">
-              {[...Array(6)].map((_,i) => (
-                <div key={i} className="card p-5 animate-pulse">
-                  <div className="h-2 bg-stone-200 rounded mb-4" />
-                  <div className="h-4 bg-stone-200 rounded w-1/2 mb-3" />
-                  <div className="h-3 bg-stone-100 rounded mb-2" />
-                  <div className="h-3 bg-stone-100 rounded w-3/4" />
+          </FadeContent>
+
+          <ScrollReveal stagger={0.15} direction="up">
+            {[
+              { step:'01', icon:'📝', title:'Post a Donation', desc:'Donors list available items — food, clothes, toys, and more — in minutes.' },
+              { step:'02', icon:'🔍', title:'Charities Discover', desc:'Registered charities browse and filter donations matching their community needs.' },
+              { step:'03', icon:'🤝', title:'Connect & Collect', desc:'Charities claim donations and coordinate pickup directly with donors.' },
+            ].map((s, i) => (
+              <GlowCard key={i} style={{padding:'2rem',textAlign:'center'}}>
+                <div style={{width:'4rem',height:'4rem',background:'#fff7ed',borderRadius:'1rem',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'2rem',margin:'0 auto 1rem'}}>
+                  {s.icon}
                 </div>
+                <span style={{display:'inline-block',fontSize:'0.75rem',fontWeight:700,color:'#f97316',background:'#fff7ed',padding:'0.2rem 0.625rem',borderRadius:'9999px',marginBottom:'0.75rem'}}>{s.step}</span>
+                <h3 style={{fontFamily:'Playfair Display,serif',fontSize:'1.2rem',fontWeight:700,color:'#1c1917',marginBottom:'0.625rem'}}>{s.title}</h3>
+                <p style={{color:'#78716c',fontSize:'0.9rem',lineHeight:1.7}}>{s.desc}</p>
+              </GlowCard>
+            ))}
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── CATEGORIES ── */}
+      <section style={{background:'white',padding:'5rem 0'}}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeContent direction="up">
+            <div style={{textAlign:'center',marginBottom:'3rem'}}>
+              <span style={{display:'inline-block',fontSize:'0.8rem',fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',color:'#f97316',marginBottom:'0.75rem'}}>What We Collect</span>
+              <h2 style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.75rem,4vw,2.5rem)',fontWeight:700,color:'#1c1917'}}>Donation Categories</h2>
+            </div>
+          </FadeContent>
+
+          <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(240px,1fr))',gap:'1.25rem'}}>
+            {DONATION_TYPES.map((type, i) => (
+              <FadeContent key={type.value} delay={i * 0.08} direction="up">
+                <Link to={`/posts?type=${type.value}`} style={{textDecoration:'none',display:'block'}}>
+                  <motion.div
+                    whileHover={{ scale:1.04, y:-4 }}
+                    transition={{ type:'spring', stiffness:300, damping:20 }}
+                    style={{position:'relative',borderRadius:'1.25rem',overflow:'hidden',aspectRatio:'4/3',boxShadow:'0 4px 20px rgba(0,0,0,0.08)',cursor:'pointer'}}
+                  >
+                    <img src={CAUSE_IMAGES[type.value]} alt={type.label} style={{width:'100%',height:'100%',objectFit:'cover',transition:'transform 0.4s'}} />
+                    <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.1) 60%,transparent 100%)'}} />
+                    <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'1.25rem',color:'white'}}>
+                      <p style={{fontSize:'1.75rem',marginBottom:'0.25rem'}}>{type.icon}</p>
+                      <p style={{fontFamily:'Playfair Display,serif',fontWeight:700,fontSize:'1.1rem'}}>{type.label}</p>
+                    </div>
+                  </motion.div>
+                </Link>
+              </FadeContent>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── RECENT DONATIONS ── */}
+      <section style={{background:'#fef9f0',padding:'5rem 0'}}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeContent direction="up">
+            <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between',marginBottom:'3rem',flexWrap:'wrap',gap:'1rem'}}>
+              <div>
+                <span style={{display:'inline-block',fontSize:'0.8rem',fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',color:'#f97316',marginBottom:'0.5rem'}}>Live Feed</span>
+                <h2 style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.75rem,4vw,2.5rem)',fontWeight:700,color:'#1c1917'}}>Recent Donations</h2>
+              </div>
+              <Link to="/posts" className="btn-outline" style={{textDecoration:'none'}}>View All →</Link>
+            </div>
+          </FadeContent>
+
+          {loading ? (
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:'1.5rem'}}>
+              {[...Array(6)].map((_,i) => (
+                <motion.div key={i} animate={{ opacity:[0.5,1,0.5] }} transition={{ duration:1.5,repeat:Infinity,delay:i*0.1 }}
+                  style={{background:'white',borderRadius:'1rem',height:'220px',boxShadow:'0 4px 20px rgba(0,0,0,0.06)'}} />
               ))}
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ScrollReveal stagger={0.1} direction="up">
               {posts.slice(0,6).map(post => <PostCard key={post._id} post={post} />)}
-            </div>
+            </ScrollReveal>
           )}
-          <div className="text-center mt-10">
-            <Link to="/posts" className="btn-primary">Browse All Donations →</Link>
-          </div>
+
+          <FadeContent delay={0.3} direction="up">
+            <div style={{textAlign:'center',marginTop:'3rem'}}>
+              <motion.div whileHover={{scale:1.04}} whileTap={{scale:0.97}} style={{display:'inline-block'}}>
+                <Link to="/posts" className="btn-primary" style={{textDecoration:'none'}}>Browse All Donations →</Link>
+              </motion.div>
+            </div>
+          </FadeContent>
         </div>
       </section>
 
-      {/* ── CTA Banner ───────────────────────────────────────────────────── */}
-      <section className="py-20 bg-gradient-to-r from-green-700 to-teal-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 [background-image:none] opacity-10" />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-5">Ready to Make a Difference?</h2>
-          <p className=" text-white/80 text-xl mb-10 max-w-xl mx-auto">
-            Join thousands of donors and charities already creating positive change through HopeLink.
+      {/* ── CTA ── */}
+      <section style={{background:'linear-gradient(to right,#2d7a4f,#0d9488)',padding:'5rem 1rem',textAlign:'center',position:'relative',overflow:'hidden'}}>
+        <motion.div animate={{ rotate:[0,360] }} transition={{ duration:60,repeat:Infinity,ease:'linear' }}
+          style={{position:'absolute',top:'-5rem',right:'-5rem',width:'20rem',height:'20rem',borderRadius:'50%',border:'2px solid rgba(255,255,255,0.06)'}}
+        />
+        <motion.div animate={{ rotate:[360,0] }} transition={{ duration:45,repeat:Infinity,ease:'linear' }}
+          style={{position:'absolute',bottom:'-3rem',left:'-3rem',width:'14rem',height:'14rem',borderRadius:'50%',border:'2px solid rgba(255,255,255,0.06)'}}
+        />
+        <FadeContent direction="up" style={{position:'relative',zIndex:1,maxWidth:'40rem',margin:'0 auto'}}>
+          <h2 style={{fontFamily:'Playfair Display,serif',fontSize:'clamp(1.75rem,4vw,3rem)',fontWeight:700,color:'white',marginBottom:'1rem'}}>
+            Ready to Make a Difference?
+          </h2>
+          <p style={{color:'rgba(255,255,255,0.8)',fontSize:'1.1rem',marginBottom:'2.5rem'}}>
+            Join thousands of donors and charities already creating positive change.
           </p>
           {!isAuthenticated && (
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/register?role=donor" className="btn-primary bg-white !text-green-700 hover:bg-stone-50 shadow-xl">
-                🎁 I Want to Donate
-              </Link>
-              <Link to="/register?role=charity" className="btn-outline !border-white !text-white hover:!bg-white hover:!text-green-700">
-                🏛️ Register as Charity
-              </Link>
+            <div style={{display:'flex',flexWrap:'wrap',gap:'1rem',justifyContent:'center'}}>
+              <motion.div whileHover={{scale:1.05}} whileTap={{scale:0.97}}>
+                <Link to="/register" className="btn-primary" style={{background:'white',color:'#2d7a4f',textDecoration:'none'}}>🎁 I Want to Donate</Link>
+              </motion.div>
+              <motion.div whileHover={{scale:1.05}} whileTap={{scale:0.97}}>
+                <Link to="/register" className="btn-outline" style={{borderColor:'rgba(255,255,255,0.5)',color:'white',textDecoration:'none'}}>🏛️ Register as Charity</Link>
+              </motion.div>
             </div>
           )}
-        </div>
+        </FadeContent>
       </section>
     </div>
   )
