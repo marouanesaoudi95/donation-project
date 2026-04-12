@@ -18,9 +18,6 @@ app.use('/claims',require('./Routes/claimController'))
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('DB error:', err));
-<<<<<<< HEAD
  app.listen(PORT, () => console.log(`Server on port ${PORT}`));
-=======
 
-app.listen(PORT, () => console.log(`Server on port ${PORT}`));
->>>>>>> b21048c75038c1adad084532db42c374d1d1b047
+
