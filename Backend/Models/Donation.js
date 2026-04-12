@@ -1,16 +1,12 @@
 const mongoose = require('mongoose');
 
 const DonationSchema = new mongoose.Schema({
-  id: {
-     type: mongoose.Schema.Types.ObjectId, required: [true, 'Name required'], trim: true 
-    },
-
   donor: {
-     type: String, default: '' , unique:true , Ref:"Users"
+     type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true
      },
 
   donationType: { 
-    type: String, default: '' , unique:true ,category:["clothes", "toys","other"]
+    type: String, required: true, enum: ["clothes", "toys", "food", "other"]
 },
   quantity: {
      type: Number, required: true 
@@ -24,17 +20,19 @@ const DonationSchema = new mongoose.Schema({
     }
     ,
     status: {
-     type: String, required: false ,category:["available","completed"]
+     type: String, default: "available", enum: ["available", "completed"]
     },
     organization: {
      type: String, required: false
     }
     ,
     contactPhone: {
-     type: String, required: false ,optional:true
+     type: String, required: false
     }
 
 }, 
+{ timestamps: true }
+
 ); // adds createdAt & updatedAt automatically
 
 module.exports = mongoose.model('Donation', DonationSchema);

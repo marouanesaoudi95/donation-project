@@ -1,33 +1,28 @@
 const mongoose = require('mongoose');
 
 const ClaimsSchema = new mongoose.Schema({
-  id: {
-     type: mongoose.Schema.Types.ObjectId, required: [true, 'Name required'], trim: true 
-    },
-
   post: {
-     type: mongoose.Schema.Types.ObjectId, required: true , Ref:"Posts"
+     type: mongoose.Schema.Types.ObjectId, required: true , ref: "Donation"
      },
 
 charity: { 
-    type: mongoose.Schema.Types.ObjectId, required: true , Ref:"Users"
+    type: mongoose.Schema.Types.ObjectId, required: true , ref: "User"
 },
   quantity: {
      type: Number, required: true 
     },
     
     status: {
-     type: String, required: false ,category:["pending","confirmed"]
+     type: String, default: "pending", enum: ["pending", "confirmed"]
     },
     claimedAt: {
-     type: Date, required: false , timestamps: true 
+     type: Date, default: Date.now
     }
     ,
     notes: {
-     type: String, required: false ,optional:true
+     type: String, required: false
     }
 
-}, 
-); // adds createdAt & updatedAt automatically
+}, { timestamps: true }); // adds createdAt & updatedAt automatically
 
 module.exports = mongoose.model('Claim', ClaimsSchema);
