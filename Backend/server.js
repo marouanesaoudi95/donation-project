@@ -1,5 +1,5 @@
 const express = require('express');
-const cors    = require('cors');
+const cors = require('cors');
 const mongoose = require('mongoose')
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
@@ -18,4 +18,9 @@ app.use('/claims',require('./Routes/claimController'))
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('DB error:', err));
+<<<<<<< HEAD
  app.listen(PORT, () => console.log(`Server on port ${PORT}`));
+=======
+
+app.listen(PORT, () => console.log(`Server on port ${PORT}`));
+>>>>>>> b21048c75038c1adad084532db42c374d1d1b047
