@@ -15,19 +15,24 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (userData) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+  const login = (data) => {
+    const { token, user } = data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    setUser(user);
   };
 
   const logout = () => {
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
   };
 
-  const register = (userData) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+  const register = (data) => {
+    const { token, user } = data;
+    if (token) localStorage.setItem('token', token);
+    if (user) localStorage.setItem('user', JSON.stringify(user));
+    setUser(user || null);
   };
 
   return (
