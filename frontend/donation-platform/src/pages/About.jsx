@@ -189,10 +189,10 @@ const ContactUs = () => {
   const set = f => e => setForm(p=>({...p,[f]:e.target.value}))
 
   const INFO = [
-    { icon:<Mail size={18} color={orange}/>,   label:'Email Us',     value:'hello@hopelink.org',                    href:'mailto:hello@hopelink.org' },
-    { icon:<Phone size={18} color={orange}/>,  label:'Call Us',      value:'+1 (555) 000-1234',                    href:'tel:+15550001234' },
-    { icon:<MapPin size={18} color={orange}/>, label:'Visit Us',     value:'123 Giving Street, New York, NY 10001', href:'#' },
-    { icon:<Clock size={18} color={orange}/>,  label:'Office Hours', value:'Mon – Fri, 9am – 6pm EST',             href:null },
+    { icon:<Mail size={18} color={orange}/>,   label:'Email Us',     value:'contact@hopelink.org',   href:'mailto:contact@hopelink.org' },
+    { icon:<Phone size={18} color={orange}/>,  label:'Call Us',      value:'+213 (0) 555 000 123',   href:'tel:+2130555000123' },
+    { icon:<MapPin size={18} color={orange}/>, label:'Visit Us',     value:'Algiers, Algeria',        href:'#' },
+    { icon:<Clock size={18} color={orange}/>,  label:'Office Hours', value:'Dim – Jeu, 9h – 17h',    href:null },
   ]
 
   return (
@@ -222,7 +222,7 @@ const ContactUs = () => {
             ) : (
               <form onSubmit={e=>{e.preventDefault();setSent(true)}} style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
                 <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1rem'}}>
-                  {[['name','Name *','Jane Doe','text'],['email','Email *','jane@email.com','email']].map(([f,l,ph,t]) => (
+                  {[['name','Name *','Your Name','text'],['email','Email *','Your Email','email']].map(([f,l,ph,t]) => (
                     <div key={f}><label style={{display:'block',fontSize:'0.8rem',fontWeight:600,color:'#1c1917',marginBottom:'0.375rem'}}>{l}</label><input required type={t} value={form[f]} onChange={set(f)} placeholder={ph} className="input-field" style={{width:'100%'}}/></div>
                   ))}
                 </div>
