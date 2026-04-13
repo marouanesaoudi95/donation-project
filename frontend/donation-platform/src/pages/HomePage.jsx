@@ -6,9 +6,7 @@ import { usePosts } from '../hooks/usePosts'
 import PostCard from '../components/posts/PostCard'
 import { DONATION_TYPES } from '../utils/constants'
 import { FadeContent, ScrollReveal, BlurText, TextShimmer } from '../components/animations'
-
 const CAUSE_IMAGES = {
-
   food:        'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&q=80',
   clothes:     'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
   toys:        'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80',
@@ -29,7 +27,6 @@ const HomePage = () => {
   useEffect(() => { fetchPosts({ status: 'available', limit: 6 }) }, [])
   return (
     <div style={{ minHeight: '100vh' }}>
-
       {/* ── HERO ── */}
       <section style={{
         position:   'relative',
@@ -48,13 +45,11 @@ const HomePage = () => {
           <div style={{ position:'absolute', inset:0, background:'rgba(15,10,5,0.55)' }} />
 
         </div>
-
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
           style={{ position:'relative', zIndex:2, paddingTop:'8rem', paddingBottom:'5rem', width:'100%' }}
         >
           <div style={{ maxWidth: '38rem', color: 'white' }}>
-
             {/* Heading */}
             <h1 style={{
 
@@ -86,27 +81,18 @@ const HomePage = () => {
               {/* Buttons */}
 
               <div style={{ display:'flex', flexWrap:'wrap', gap:'1rem' }}>
-
                 {isAuthenticated ? (
-
                   isDonor ? (
                     <>
                       <motion.div
-
                         whileHover={{ scale:1.05 }}
-
                         whileTap={{ scale:0.97 }}
-
                         transition={{ type:'spring', stiffness:300, damping:20 }}
-
                       >
-
                         <Link to="/posts/create" style={{
-
                           display:'inline-block', padding:'0.9rem 2.2rem', borderRadius:'0.4rem',
 
                           fontWeight:700, fontSize:'0.82rem', letterSpacing:'0.12em',
-
                           textTransform:'uppercase', textDecoration:'none',
 
                           background:'#f97316', color:'white', border:'2px solid #f97316',
@@ -118,21 +104,15 @@ const HomePage = () => {
                       <motion.div
 
                         whileHover={{ scale:1.05, backgroundColor:'rgba(255,255,255,0.15)' }}
-
                         whileTap={{ scale:0.97 }}
-
                         transition={{ type:'spring', stiffness:300, damping:20 }}
 
                         style={{ borderRadius:'0.4rem' }}
-
                       >
-
                         <Link to="/posts" style={{
-
                           display:'inline-block', padding:'0.9rem 2.2rem', borderRadius:'0.4rem',
 
                           fontWeight:700, fontSize:'0.82rem', letterSpacing:'0.12em',
-
                           textTransform:'uppercase', textDecoration:'none',
 
                           background:'transparent', color:'white',
@@ -142,167 +122,87 @@ const HomePage = () => {
                         }}>Browse Donations</Link>
 
                       </motion.div>
-
                     </>
-
                   ) : (
-
                     <>
-
                       <motion.div
-
                         whileHover={{ scale:1.05 }}
-
                         whileTap={{ scale:0.97 }}
-
                         transition={{ type:'spring', stiffness:300, damping:20 }}
-
                       >
-
                         <Link to="/posts" style={{
-
                           display:'inline-block', padding:'0.9rem 2.2rem', borderRadius:'0.4rem',
 
                           fontWeight:700, fontSize:'0.82rem', letterSpacing:'0.12em',
-
                           textTransform:'uppercase', textDecoration:'none',
-
                           background:'#f97316', color:'white', border:'2px solid #f97316',
-
                         }}>🔍 Browse Donations</Link>
-
                       </motion.div>
-
                     </>
-
                   )
-
                 ) : (
-
                   <>
-
                     {/* Get Started Free */}
-
                     <motion.div
-
                       whileHover={{ scale:1.05 }}
-
                       whileTap={{ scale:0.97 }}
-
                       transition={{ type:'spring', stiffness:300, damping:20 }}
-
                     >
-
                       <Link to="/register" style={{
-
                         display:        'inline-block',
-
                         padding:        '0.85rem 2rem',
-
                         borderRadius:   '0.4rem',
-
                         fontWeight:      700,
-
                         fontSize:       '0.82rem',
-
                         letterSpacing:  '0.12em',
-
                         textTransform:  'uppercase',
-
                         textDecoration: 'none',
-
                         background:     '#f97316',
-
                         color:          'white',
-
                         border:         '2px solid #f97316',
-
                         boxShadow:      '0 8px 30px rgba(249,115,22,0.35)',
-
                       }}>
-
                         Get Started Free
-
                       </Link>
-
                     </motion.div>
-
-
-
                     {/* Browse Donations avec animation */}
-
                     <motion.div
-
                       whileHover={{ scale:1.05, backgroundColor:'rgba(255,255,255,0.12)' }}
-
                       whileTap={{ scale:0.97 }}
-
                       transition={{ type:'spring', stiffness:300, damping:20 }}
-
                       style={{ borderRadius:'0.4rem' }}
 
                     >
-
                       <Link to="/posts" style={{
-
                         display:        'inline-block',
-
                         padding:        '0.85rem 2rem',
-
                         borderRadius:   '0.4rem',
-
                         fontWeight:      700,
-
                         fontSize:       '0.82rem',
-
                         letterSpacing:  '0.12em',
-
                         textTransform:  'uppercase',
-
                         textDecoration: 'none',
-
                         background:     'transparent',
-
                         color:          'white',
-
                         border:         '2px solid rgba(255,255,255,0.6)',
 
                       }}>
-
                         Browse Donations
-
                       </Link>
-
                     </motion.div>
-
                   </>
-
                 )}
-
               </div>
-
             </FadeContent>
-
           </div>
-
         </div>
-
-
-
         {/* Pas de wave — transition directe */}
-
       </section>
 
-
-
       {/* ── HOW IT WORKS ── */}
-
       <section style={{ background:'#fef9f0', padding:'5rem 0' }}>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           <FadeContent direction="up">
-
             <div style={{ textAlign:'center', marginBottom:'3.5rem' }}>
 
               <span style={{ display:'inline-block', fontSize:'0.8rem', fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#f97316', marginBottom:'0.75rem' }}>
@@ -310,24 +210,17 @@ const HomePage = () => {
                 Simple Process
 
               </span>
-
               <h2 style={{ fontFamily:'Playfair Display,serif', fontSize:'clamp(1.75rem,4vw,2.75rem)', fontWeight:700, color:'#1c1917', marginBottom:'1rem' }}>
 
                 How <TextShimmer text="HopeLink" /> Works
 
               </h2>
-
               <p style={{ color:'#78716c', fontSize:'1.05rem', lineHeight:1.7, maxWidth:'36rem', margin:'0 auto' }}>
 
                 Three simple steps to connect donors with charities and make a lasting difference.
-
               </p>
-
             </div>
-
           </FadeContent>
-
-
 
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))', gap:'1.5rem' }}>
 
@@ -336,13 +229,9 @@ const HomePage = () => {
               <motion.div
 
                 key={i}
-
                 initial={{ opacity:0, y:30 }}
-
                 whileInView={{ opacity:1, y:0 }}
-
                 viewport={{ once:true }}
-
                 transition={{ delay:i*0.15, duration:0.5, type:'spring' }}
 
                 whileHover={{ y:-6, boxShadow:'0 16px 40px rgba(249,115,22,0.15)' }}
@@ -350,13 +239,11 @@ const HomePage = () => {
                 style={{ position:'relative', background:'#fff8f3', borderRadius:'1.25rem', border:'1px solid #ffe4cc', padding:'2rem', overflow:'hidden', cursor:'default' }}
 
               >
-
                 <span style={{ position:'absolute', top:'-0.75rem', right:'0.75rem', fontFamily:'Playfair Display,serif', fontSize:'7rem', fontWeight:900, color:'#f97316', opacity:0.07, lineHeight:1, userSelect:'none', pointerEvents:'none' }}>
 
                   {s.step}
 
                 </span>
-
                 <div style={{ position:'relative', zIndex:1 }}>
 
                   <span style={{ display:'inline-block', fontSize:'0.7rem', fontWeight:700, letterSpacing:'0.18em', textTransform:'uppercase', color:'#f97316', marginBottom:'1rem' }}>
@@ -364,39 +251,30 @@ const HomePage = () => {
                     {s.tag}
 
                   </span>
-
                   <p style={{ fontFamily:'Playfair Display,serif', fontSize:'2.5rem', fontWeight:900, color:'#f97316', lineHeight:1, marginBottom:'1.25rem' }}>
 
                     {s.step}
 
                   </p>
-
                   <div style={{ width:'2.5rem', height:'2px', background:'#fdba74', marginBottom:'1.25rem' }} />
 
                   <h3 style={{ fontFamily:'Playfair Display,serif', fontSize:'1.2rem', fontWeight:700, color:'#1c1917', marginBottom:'0.75rem' }}>
 
                     {s.title}
-
                   </h3>
-
                   <p style={{ color:'#78716c', fontSize:'0.9rem', lineHeight:1.7 }}>
 
                     {s.desc}
 
                   </p>
-
                 </div>
-
               </motion.div>
 
             ))}
 
           </div>
-
         </div>
-
       </section>
-{/* ── SECTION CATEGORIES (RÉPLICATION EXACTE HAHAHAHAH.JPG) ── */}
 {/* ── SECTION CATEGORIES CORRIGÉE ── */}
 <section className="py-20 bg-white">
   <div className="max-w-6xl mx-auto px-6">
@@ -471,57 +349,40 @@ const HomePage = () => {
 </section>
      
       {/* ── RECENT DONATIONS ── */}
-
       <section style={{ background:'#fef9f0', padding:'5rem 0' }}>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           <FadeContent direction="up">
-
             <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', marginBottom:'3rem', flexWrap:'wrap', gap:'1rem' }}>
 
               <div>
-
                 <span style={{ display:'inline-block', fontSize:'0.8rem', fontWeight:700, letterSpacing:'0.1em', textTransform:'uppercase', color:'#f97316', marginBottom:'0.5rem' }}>Live Feed</span>
 
                 <h2 style={{ fontFamily:'Playfair Display,serif', fontSize:'clamp(1.75rem,4vw,2.5rem)', fontWeight:700, color:'#1c1917' }}>Recent Donations</h2>
-
               </div>
 
               <Link to="/posts" className="btn-outline" style={{ textDecoration:'none' }}>View All →</Link>
-
             </div>
-
           </FadeContent>
-
-
 
           {loading ? (
 
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:'1.5rem' }}>
 
               {[...Array(6)].map((_, i) => (
-
                 <motion.div key={i} animate={{ opacity:[0.5,1,0.5] }} transition={{ duration:1.5, repeat:Infinity, delay:i*0.1 }}
 
                   style={{ background:'white', borderRadius:'1rem', height:'220px', boxShadow:'0 4px 20px rgba(0,0,0,0.06)' }} />
-
               ))}
 
             </div>
-
           ) : (
 
             <ScrollReveal stagger={0.1} direction="up">
 
               {posts.slice(0,6).map(post => <PostCard key={post._id} post={post} />)}
-
             </ScrollReveal>
 
           )}
-
-
-
           <FadeContent delay={0.3} direction="up">
 
             <div style={{ textAlign:'center', marginTop:'3rem' }}>
@@ -529,19 +390,11 @@ const HomePage = () => {
               <motion.div whileHover={{ scale:1.04 }} whileTap={{ scale:0.97 }} style={{ display:'inline-block' }}>
 
                 <Link to="/posts" className="btn-primary" style={{ textDecoration:'none' }}>Browse All Donations →</Link>
-
               </motion.div>
-
             </div>
-
           </FadeContent>
-
         </div>
-
       </section>
-
-
-
       {/* ── CTA ── */}
 
       <section style={{ position:'relative', minHeight:'560px', display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden', textAlign:'center' }}>
@@ -549,7 +402,6 @@ const HomePage = () => {
         <div style={{ position:'absolute', inset:0 }}>
 
           <img
-
             src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=1600&q=80"
 
             alt="Hands giving donation"
@@ -557,12 +409,9 @@ const HomePage = () => {
             style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center' }}
 
           />
-
           <div style={{ position:'absolute', inset:0, background:'rgba(15,10,5,0.72)' }} />
 
         </div>
-
-
 
         <div style={{ position:'relative', zIndex:1, maxWidth:'44rem', margin:'0 auto', padding:'4rem 1.5rem' }}>
 
@@ -573,12 +422,9 @@ const HomePage = () => {
             style={{ fontSize:'0.72rem', fontWeight:700, letterSpacing:'0.22em', textTransform:'uppercase', color:'#fb923c', marginBottom:'1.5rem' }}
 
           >
-
             JOIN THE MOVEMENT
 
           </motion.p>
-
-
 
           <motion.h2
 
@@ -587,28 +433,21 @@ const HomePage = () => {
             style={{ fontFamily:'Playfair Display,serif', fontSize:'clamp(2.2rem,5vw,3.8rem)', fontWeight:700, color:'white', lineHeight:1.15, marginBottom:'1.25rem' }}
 
           >
-
             Ready to Make a<br />
 
             <span style={{ color:'#fb923c' }}>Difference?</span>
 
           </motion.h2>
 
-
-
           <motion.p
-
             initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ delay:0.2 }}
 
             style={{ color:'rgba(255,255,255,0.65)', fontSize:'1.05rem', lineHeight:1.75, maxWidth:'32rem', margin:'0 auto 2.5rem' }}
 
           >
-
             Every action counts. Whether you're a donor with goods to share or a charity serving your community — HopeLink is your platform.
 
           </motion.p>
-
-
 
           {!isAuthenticated && (
 
@@ -619,7 +458,6 @@ const HomePage = () => {
               style={{ display:'flex', flexWrap:'wrap', gap:'1rem', justifyContent:'center' }}
 
             >
-
               <motion.div
 
                 whileHover={{ scale:1.05 }}
@@ -629,7 +467,6 @@ const HomePage = () => {
                 transition={{ type:'spring', stiffness:300, damping:20 }}
 
               >
-
                 <Link to="/register?role=donor" style={{
 
                   display:'inline-block', padding:'0.85rem 2rem', borderRadius:'0.4rem',
@@ -643,31 +480,20 @@ const HomePage = () => {
                   boxShadow:'0 8px 30px rgba(249,115,22,0.35)',
 
                 }}>Start Donating</Link>
-
               </motion.div>
-
-
 
               <motion.div
 
                 whileHover={{ scale:1.05, backgroundColor:'rgba(255,255,255,0.12)' }}
-
                 whileTap={{ scale:0.97 }}
-
                 transition={{ type:'spring', stiffness:300, damping:20 }}
-
                 style={{ borderRadius:'0.4rem' }}
-
               >
-
                 <Link to="/register?role=charity" style={{
 
                   display:'inline-block', padding:'0.85rem 2rem', borderRadius:'0.4rem',
-
                   fontWeight:700, fontSize:'0.82rem', letterSpacing:'0.12em',
-
                   textTransform:'uppercase', textDecoration:'none',
-
                   background:'transparent', color:'white',
 
                   border:'2px solid rgba(255,255,255,0.5)',
@@ -675,17 +501,12 @@ const HomePage = () => {
                 }}>Register as Charity</Link>
 
               </motion.div>
-
             </motion.div>
-
           )}
-
         </div>
-
       </section>
 
     </div>
   )
-
 }
 export default HomePage;
