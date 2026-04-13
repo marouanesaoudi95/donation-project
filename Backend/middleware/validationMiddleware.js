@@ -16,7 +16,7 @@ const registerSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
-  role: Joi.string().valid('donor', 'charity').required(),
+  role: Joi.string().valid('donor', 'charity', 'admin').required(),
   phone: Joi.string().optional(),
   organization: Joi.string().when('role', {
     is: 'charity',
@@ -31,12 +31,12 @@ const loginSchema = Joi.object({
 });
 
 const donationSchema = Joi.object({
-  donationType: Joi.string().valid('food', 'clothes', 'toys', 'electronics', 'books', 'other').required(),
+  donationType: Joi.string().lowercase().valid('food', 'clothes', 'toys', 'electronics', 'books', 'other').required(),
   quantity: Joi.number().integer().min(1).required(),
   description: Joi.string().max(1000).required(),
   contactPhone: Joi.string().optional(),
   contactEmail: Joi.string().email().optional()
-});
+}); 
 
 const claimSchema = Joi.object({
   postId: Joi.string().required(),

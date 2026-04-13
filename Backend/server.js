@@ -11,9 +11,9 @@ console.log('hello world')
 app.get('/', (req, res) => res.json({ message: 'API running' }));
 // Routes
 
-app.use('/auth', require('./Routes/authController'))
-app.use('/donations', require('./Routes/donationController'))
-app.use('/claims',require('./Routes/claimController'))
+app.use('/auth', require('./routes/userRoutes'))
+app.use('/donations', require('./routes/donationRoutes'))
+app.use('/claims',require('./routes/claimRoutes'))
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
