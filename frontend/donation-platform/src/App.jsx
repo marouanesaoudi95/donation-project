@@ -25,7 +25,7 @@ import AdminPanel    from './pages/admin/AdminPanel'
 const Layout = ({ children, noFooter = false }) => (
   <>
     <Navbar />
-    <main>{children}</main>
+    <main style={{ minHeight: '80vh', paddingTop: '4rem' }}>{children}</main>
     {!noFooter && <Footer />}
   </>
 )

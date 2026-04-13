@@ -35,17 +35,59 @@ const Register = () => {
 
   const set = (f) => (e) => setForm(p => ({ ...p, [f]: e.target.value }))
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const errs = validateRegisterForm(form)
-    if (Object.keys(errs).length) { setErrors(errs); return }
-    setErrors({}); setApiError(''); setLoading(true)
+  const handleSignUp = async (e) => {
+    if (e) e.preventDefault();
+
+    // Validation structure requested by user
+    if (!form.role) {
+      alert("Please select a role!");
+      return;
+    }
+
+    if (!form.name.trim() || !form.email.trim() || !form.password.trim() || !form.phone.trim()) {
+      alert("All fields are required!");
+      return;
+    }
+
+    setErrors({});
+    setApiError('');
+    setLoading(true);
+
     try {
-      await register(form)
-      navigate('/dashboard')
-    } catch (err) {
-      setApiError(err.response?.data?.message || 'Registration failed.')
-    } finally { setLoading(false) }
+      const response = await fetch('http://localhost:5000/api/v1/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          password: form.password.trim(),
+          phone: form.phone.trim(),
+          role: form.role,
+          organization: form.organization.trim()
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Registration successful!');
+        // Following requested structure
+        if (data.user) {
+          localStorage.setItem('userId', data.user.id);
+        }
+        navigate('/login');
+      } else {
+        const msg = data.msg || 'Registration failed.';
+        setApiError(msg);
+        alert(msg);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+      setApiError(error.message);
+      console.error('Registration error:', error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const particles = [
@@ -75,7 +117,7 @@ const Register = () => {
             Already have one? <Link to="/login" style={{ color: '#ea580c', fontWeight: 700, textDecoration: 'none' }}>Sign in</Link>
           </p>
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <form onSubmit={handleSignUp} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               {ROLES.map((r) => (
                 <button key={r.value} type="button" onClick={() => setForm(f => ({ ...f, role: r.value }))}

@@ -1,16 +1,32 @@
-import axios from 'axios';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api/v1';
 
-// Axios instance ready for your MERN backend
-const api = axios.create({
-  baseURL: 'http://localhost:5000/api/v1', // Matches backend server.js
-  headers: { 'Content-Type': 'application/json' }
-});
-
-// Auto attach JWT (matches PDF authentication flow)
-api.interceptors.request.use((config) => {
+const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+};
 
-export default api;
+const request = async (path, options = {}) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    headers: getAuthHeaders(),
+    ...options,
+  });
+
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : null;
+
+  if (!response.ok) {
+    throw data || new Error(response.statusText);
+  }
+
+  return data;
+};
+
+export default {
+  get: (path) => request(path, { method: 'GET' }),
+  post: (path, body) => request(path, { method: 'POST', body: JSON.stringify(body) }),
+  put: (path, body) => request(path, { method: 'PUT', body: JSON.stringify(body) }),
+  patch: (path, body) => request(path, { method: 'PATCH', body: JSON.stringify(body) }),
+  delete: (path) => request(path, { method: 'DELETE' }),
+};
