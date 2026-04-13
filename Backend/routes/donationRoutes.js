@@ -14,6 +14,6 @@ router.post('/', auth, authorize('donor', 'admin'), validate(donationSchema), do
 router.get('/my/donations', auth, authorize('donor', 'admin'), donationController.getMyDonations);
 router.put('/:id', auth, authorize('donor', 'admin'), validate(donationSchema), donationController.updateDonation);
 router.delete('/:id', auth, authorize('donor', 'admin'), donationController.deleteDonation);
-router.get('/:id/claims', auth, authorize('donor', 'admin'), donationController.getDonationClaims);
+
 
 module.exports = router;

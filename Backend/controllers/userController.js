@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const User = require('../Models/User');
+const User = require('../Models/Users');
 
 //register
 exports.register = async (req, res) => {
@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
     }
 };
 //get user profile
-exports.getProfile = async (req, res) => {
+exports.getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         if (!user) return res.status(404).json({ msg: 'User not found' });
