@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './hooks/useAuth';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -21,7 +22,7 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/posts" element={<PostsList />} />
         <Route path="/posts/:id" element={<PostDetail />} />
-        
+
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
@@ -29,7 +30,7 @@ function AppContent() {
 
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
-        
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>

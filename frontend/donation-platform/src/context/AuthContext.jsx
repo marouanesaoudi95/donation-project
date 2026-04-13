@@ -39,8 +39,7 @@ export const AuthProvider = ({ children }) => {
     verify()
   }, [])
 
-  const login = useCallback(async (credentials) => {
-    const { data } = await authAPI.login(credentials)
+  const login = useCallback((data) => {
     const { token: t, user: u } = data
     localStorage.setItem('token', t)
     localStorage.setItem('user', JSON.stringify(u))
@@ -49,13 +48,12 @@ export const AuthProvider = ({ children }) => {
     return u
   }, [])
 
-  const register = useCallback(async (formData) => {
-    const { data } = await authAPI.register(formData)
+  const register = useCallback((data) => {
     const { token: t, user: u } = data
-    localStorage.setItem('token', t)
-    localStorage.setItem('user', JSON.stringify(u))
-    setToken(t)
-    setUser(u)
+    if (t) localStorage.setItem('token', t)
+    if (u) localStorage.setItem('user', JSON.stringify(u))
+    setToken(t || null)
+    setUser(u || null)
     return u
   }, [])
 

@@ -64,17 +64,48 @@ const Login = () => {
 
   const set = (f) => (e) => setForm(p => ({ ...p, [f]: e.target.value }))
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const errs = validateLoginForm(form)
-    if (Object.keys(errs).length) { setErrors(errs); return }
-    setErrors({}); setApiError(''); setLoading(true)
+  const handleSignIn = async (e) => {
+    if (e) e.preventDefault();
+    
+    // Validation structure requested by user
+    if (!form.email.trim() || !form.password.trim()) {
+      alert("All fields are required!");
+      return;
+    }
+
+    setErrors({});
+    setApiError('');
+    setLoading(true);
+
     try {
-      await login(form)
-      navigate(from, { replace: true })
-    } catch (err) {
-      setApiError(err.response?.data?.message || 'Invalid credentials. Please try again.')
-    } finally { setLoading(false) }
+      const response = await fetch('http://localhost:5000/api/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: form.email.trim(),
+          password: form.password.trim(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Login successful!');
+        // Map data to expected context format if necessary, or just call login
+        await login(data); // Assuming login handles token storage as before
+        navigate(from, { replace: true });
+      } else {
+        const msg = data.msg || 'Invalid credentials. Please try again.';
+        setApiError(msg);
+        alert(msg);
+      }
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+      setApiError(error.message);
+      console.error('Login error:', error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const particles = [
@@ -159,7 +190,7 @@ const Login = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <form onSubmit={handleSignIn} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <Input label="Email Address" type="email" value={form.email} onChange={set('email')} error={errors.email} placeholder="you@example.com" />
             <Input label="Password" type="password" value={form.password} onChange={set('password')} error={errors.password} placeholder="••••••••" />
             <Button type="submit" loading={loading} style={{ background: '#ea580c', padding: '1rem', fontSize: '1.1rem', fontWeight: 600, boxShadow: '0 4px 12px rgba(234,88,12,0.2)' }}>
