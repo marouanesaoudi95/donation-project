@@ -75,7 +75,7 @@ const Register = () => {
         if (data.user) {
           localStorage.setItem('userId', data.user.id);
         }
-        navigate('/login');
+        navigate('/');
       } else {
         const msg = data.msg || 'Registration failed.';
         setApiError(msg);

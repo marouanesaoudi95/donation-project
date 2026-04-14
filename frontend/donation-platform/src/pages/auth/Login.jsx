@@ -93,7 +93,7 @@ const Login = () => {
         alert('Login successful!');
         // Map data to expected context format if necessary, or just call login
         await login(data); // Assuming login handles token storage as before
-        navigate(from, { replace: true });
+        navigate('/');
       } else {
         const msg = data.msg || 'Invalid credentials. Please try again.';
         setApiError(msg);
