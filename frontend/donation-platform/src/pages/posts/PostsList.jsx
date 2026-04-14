@@ -9,6 +9,7 @@ import {
   Cpu,
   BookOpen,
   Package2,
+  Stethoscope,
 } from 'lucide-react'
 import { usePosts } from '../../hooks/usePosts'
 import PostCard from '../../components/posts/PostCard'
@@ -23,6 +24,7 @@ const LUCIDE_ICONS = {
   Cpu,
   BookOpen,
   Package2,
+  Stethoscope,
 }
 
 // Helper : rendu d'une icône par nom

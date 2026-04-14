@@ -12,6 +12,7 @@ import {
   Cpu,
   BookOpen,
   Package2,
+  Stethoscope,
   CheckCircle2,
   Clock,
 } from 'lucide-react'
@@ -23,6 +24,7 @@ const TYPE_GRAD = {
   toys:        'linear-gradient(to right,#fbbf24,#f97316)',
   electronics: 'linear-gradient(to right,#a78bfa,#8b5cf6)',
   books:       'linear-gradient(to right,#2dd4bf,#06b6d4)',
+  medical:     'linear-gradient(to right,#f472b6,#db2777)',
   other:       'linear-gradient(to right,#a8a29e,#78716c)',
 }
 
@@ -31,8 +33,9 @@ const TYPE_ICON = {
   clothes:     <Shirt     size={20} />,
   toys:        <Gamepad2  size={20} />,
   electronics: <Cpu       size={20} />,
-  books:       <BookOpen  size={20} />,
-  other:       <Package2  size={20} />,
+  books:       <BookOpen    size={20} />,
+  medical:     <Stethoscope size={20} />,
+  other:       <Package2    size={20} />,
 }
 
 const PostCard = ({ post, showActions, onEdit, onDelete }) => {
